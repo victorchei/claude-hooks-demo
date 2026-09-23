@@ -1,16 +1,28 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/session_start_deps.sh",
+            "timeout": 300
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Write|Edit",
-        "hooks": [
-          { "type": "command", "command": "bash hooks/protect_env.sh" }
-        ]
+        "hooks": [{ "type": "command", "command": "bash hooks/protect_env.sh" }]
       },
       {
         "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": "bash hooks/block_direct_master_commit.sh" }
+          {
+            "type": "command",
+            "command": "bash hooks/block_direct_master_commit.sh"
+          }
         ]
       }
     ],
