@@ -20,5 +20,5 @@ check(git("status", "--short") === "", "робоче дерево чисте", "
 const app = readFileSync(new URL("../src/app.js", import.meta.url), "utf8");
 check(!app.includes("function greet"), "src/app.js чистий (без function greet)", "у src/app.js вже є function greet — git restore src/app.js");
 
-check(Boolean(process.env.NTFY_TOPIC), `NTFY_TOPIC=${process.env.NTFY_TOPIC}`, "NTFY_TOPIC не задано — демо 4–5 покажуть лише ⚠");
+check(Boolean(process.env.NTFY_TOPIC), `NTFY_TOPIC=${process.env.NTFY_TOPIC}`, "NTFY_TOPIC не задано — демо 4 покаже лише ⚠");
 if (process.env.DEMO_MUTE) console.log("ℹ DEMO_MUTE задано — звуки вимкнено");
