@@ -1,16 +1,33 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/hooks/session_start_deps.mjs\" || echo \"NODE_MISSING: Node.js 18+ не знайдено, хуки цього репо без нього не працюють. Claude: виконай розділ 'Старт сесії: залежності' з CLAUDE.md.\"",
+            "timeout": 300
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Write|Edit",
         "hooks": [
-          { "type": "command", "command": "bash hooks/protect_env.sh" }
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/hooks/protect_env.mjs\""
+          }
         ]
       },
       {
         "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": "bash hooks/block_direct_master_commit.sh" }
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/hooks/block_direct_master_commit.mjs\""
+          }
         ]
       }
     ],
@@ -18,20 +35,29 @@
       {
         "matcher": "Write|Edit",
         "hooks": [
-          { "type": "command", "command": "bash hooks/format_on_write.sh" }
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/hooks/format_on_write.mjs\""
+          }
         ]
       },
       {
         "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": "bash hooks/notify_pr_created.sh" }
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/hooks/notify_pr_created.mjs\""
+          }
         ]
       }
     ],
     "Notification": [
       {
         "hooks": [
-          { "type": "command", "command": "bash hooks/notify_mobile.sh" }
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/hooks/notify_mobile.mjs\""
+          }
         ]
       }
     ]
