@@ -28,9 +28,9 @@ description: Інтерактивний показ шести хуків Claude 
    Хук prettier має її виправити. Потім `git diff src/app.js` — покажи, що
    змінив хук.
 3. **PreToolUse — захист .env (демо 2) — до запису файлу.** Інструментом
-   **Edit** (не Bash!) відредагуй наявний зразок `example.env`: додай рядок
+   **Edit** (не Bash!) відредагуй файл `.env.example`: додай рядок
    `API_KEY=demo`. Очікуй блокування; після цього перевір, що вміст
-   `example.env` не змінився.
+   `.env.example` не змінився (`git diff --stat .env.example` порожній).
 4. **PreToolUse — коміт у main (демо 3) — до запуску команди.** Лише якщо
    поточна гілка `main`/`master` (інакше запропонуй `git switch main` і
    дочекайся згоди): виконай `git commit --allow-empty -m "test"`. Очікуй
