@@ -8,9 +8,11 @@ import { beep, notify, readInput, say } from "./lib.mjs";
 const input = await readInput();
 const command = input.tool_input?.command ?? "";
 
-// Реагуємо лише на саму команду створення PR — усе інше пропускаємо
-if (!/(^|[;&|]\s*)gh\s+pr\s+create(\s|$)/.test(command)) {
-  say("📣 notify_pr_created: це не gh pr create — пропущено");
+// Реагуємо лише на справжнє створення PR — довідка (--help/-h) і решта команд пропускаються
+const isPrCreate = /(^|[;&|]\s*)gh\s+pr\s+create(\s|$)/.test(command);
+const isHelp = /\s(--help|-h)(\s|$)/.test(command.replace(/(["']).*?\1/g, ""));
+if (!isPrCreate || isHelp) {
+  say("📣 notify_pr_created: це не створення PR — пропущено");
   process.exit(0);
 }
 
