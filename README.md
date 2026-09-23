@@ -23,9 +23,10 @@ claude-hooks-demo/
 
 ## Як запустити демо
 
-1. Клонувати репозиторій і зайти в теку:
+1. Встановити [залежності](#залежності-для-локального-запуску), клонувати репозиторій і запустити `claude` **з кореня** репо
+   (шляхи в `.claude/settings.json` відносні), підтвердивши довіру до теки й проектних хуків:
    ```bash
-   git clone <ваш-репозиторій>
+   git clone https://github.com/victorchei/claude-hooks-demo
    cd claude-hooks-demo
    claude
    ```
@@ -97,6 +98,18 @@ export NTFY_TOPIC="my-claude-code-<унікальний-суфікс>"
 той самий топік. Без заданого `NTFY_TOPIC` обидва хуки просто нічого не
 роблять (exit 0) — це не ламає інші дії.
 
+## Якщо щось не спрацювало
+
+| Симптом | Причина |
+|---------|---------|
+| Хуки не запускаються | `claude` запущено не з кореня репо, або не підтверджено довіру до проектних хуків |
+| Немає `✓ black` | не встановлено `black` |
+| Хуки падають | не встановлено `jq` |
+| Коміт у `main` не блокується | поточна гілка не `main`/`master` (`git branch --show-current`) |
+| Немає пуша | не задано `NTFY_TOPIC` або немає підписки на топік |
+
+Після репетиції верніть `src/app.py` до чистого стану: `git restore .`
+
 ## Як влаштовані хуки
 
 - `.claude/settings.json` реєструє події `PreToolUse`, `PostToolUse` і
@@ -111,15 +124,42 @@ export NTFY_TOPIC="my-claude-code-<унікальний-суфікс>"
 
 ## Залежності для локального запуску
 
-- `jq` — парсинг JSON контексту
-- `git` — визначення поточної гілки (`block_direct_master_commit.sh`)
-- `gh` (GitHub CLI) — для демо створення PR
-- `curl` — для push-сповіщень через ntfy.sh
-- `black` — форматування `.py`
-- `npx`/`prettier` — форматування `.js .jsx .ts .tsx .json .css .md`
+| Пакет | Для чого | Обов'язковий |
+|-------|----------|--------------|
+| `jq` | парсинг JSON контексту в усіх хуках | так |
+| `git` | визначення поточної гілки (`block_direct_master_commit.sh`) | так |
+| `black` | форматування `.py` (демо 1) | для демо 1 |
+| `gh` (GitHub CLI) | створення PR (демо 4) | для демо 4 |
+| `curl` | push-сповіщення через ntfy.sh (демо 4, 5) | для демо 4, 5 |
+| `node` (`npx`, `prettier`) | форматування `.js .jsx .ts .tsx .json .css .md` | ні |
+
+Встановлення:
+
+```bash
+# macOS (Homebrew)
+brew install jq git gh node
+pipx install black        # або: pip install black
+
+# Debian/Ubuntu
+sudo apt install jq git curl nodejs npm
+pipx install black        # або: pip install black
+# gh: https://github.com/cli/cli#installation
+```
+
+Перевірка:
+
+```bash
+jq --version && git --version && gh --version && black --version && npx --version
+```
 
 Якщо якогось інструмента немає — відповідний хук або пропускає крок
 (`|| true`), або мовчки виходить (`exit 0`), не ламаючи основну дію.
+
+## Презентація
+
+- **Назва:** «Claude Code: Хуки» (`claude-hooks-15min.pptx`)
+- **Формат:** 15 хвилин, для інженерів та менеджерів
+- **Відкрити в браузері:** [claude-hooks-15min.pptx](https://drive.google.com/file/d/1bTMxDjEOO0oU_MDOpmpvQErJVv8yLV7m/view)
 
 ## Джерело
 
